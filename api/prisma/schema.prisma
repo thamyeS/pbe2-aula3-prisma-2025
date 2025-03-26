@@ -6,24 +6,26 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 model Cliente{
   id Int @id @default(autoincrement())
-  cpf String @db.VarChar(20)
+  cpf String? @db.VarChar(20) @unique
   nome String
-  tefones Telefone []
+  telefones Telefone[]
   pedidos Pedido[]
 }
 
-model Telefone {
+model Telefone{
   id Int @id @default(autoincrement())
   clienteId Int
   numero String @db.VarChar(20)
   tipo String @db.VarChar(20)
   cliente Cliente @relation(fields: [clienteId], references: [id])
 }
-model Pedido {
+
+model Pedido{
   id Int @id @default(autoincrement())
-  clienteId Int 
+  clienteId Int
   data DateTime @default(now())
   produto String
   qtd Int
